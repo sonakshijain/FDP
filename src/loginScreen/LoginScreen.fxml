@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="loginScreen.LoginScreenController">
+    <padding>
+      <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+   </padding>
+   <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+      <viewport>
+         <Rectangle2D />
+      </viewport>
+      <image>
+         <Image url="@avatar.png" />
+      </image>
+      <VBox.margin>
+         <Insets bottom="30.0" />
+      </VBox.margin>
+   </ImageView>
+
+    <Text text="Login" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="0" GridPane.rowSpan="1">
+        <font>
+            <Font name="Tahoma" size="30.0" />
+        </font>
+    </Text>
+
+    <GridPane hgap="20" vgap="20">
+        <padding>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+        </padding>
+
+        <Label text="User Name: " GridPane.columnIndex="0" GridPane.rowIndex="0">
+          <font>
+             <Font name="Droid Sans" size="17.0" />
+          </font></Label>
+
+        <TextField fx:id="userNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+        <Label text="Password: " GridPane.columnIndex="0" GridPane.rowIndex="1">
+          <font>
+             <Font name="Droid Sans" size="17.0" />
+          </font></Label>
+
+        <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+    </GridPane>
+
+    <HBox>
+        <padding>
+            <Insets left="25.0" right="25.0" />
+        </padding>
+        <Button fx:id="registerButton" onAction="#createUserHandle" maxWidth="1.7976931348623157E308" text="New User?" HBox.hgrow="ALWAYS">
+         <HBox.margin>
+            <Insets right="50.0" />
+         </HBox.margin>
+        </Button>
+        <Button fx:id="signInButton" maxWidth="1.7976931348623157E308" onAction="#signInUser" text="Sign In" HBox.hgrow="ALWAYS">
+         <HBox.margin>
+            <Insets left="12.5" />
+         </HBox.margin>
+        </Button>
+    </HBox>
+
+</VBox>

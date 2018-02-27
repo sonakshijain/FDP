@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="members@localhost">
+  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.7">
+    <root id="1"/>
+    <database id="2" parent="1" name="members">
+      <ObjectId>16397</ObjectId>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <database id="3" parent="1" name="postgres">
+      <ObjectId>12441</ObjectId>
+    </database>
+    <role id="4" parent="1" name="pg_signal_backend">
+      <ObjectId>4200</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="5" parent="1" name="postgres">
+      <ObjectId>10</ObjectId>
+      <SuperRole>1</SuperRole>
+      <Inherit>1</Inherit>
+      <CreateRole>1</CreateRole>
+      <CreateDb>1</CreateDb>
+      <CanLogin>1</CanLogin>
+      <Replication>1</Replication>
+      <ConnectionLimit>-1</ConnectionLimit>
+      <BypassRls>1</BypassRls>
+    </role>
+    <schema id="6" parent="2" name="public">
+      <ObjectId>2200</ObjectId>
+      <IntrospectionTimestamp>2018-02-27.19:25:14.447</IntrospectionTimestamp>
+      <IntrospectionStateNumber>611</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="7" parent="2" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+    </schema>
+    <schema id="8" parent="2" name="pg_toast">
+      <ObjectId>99</ObjectId>
+    </schema>
+    <schema id="9" parent="2" name="pg_temp_1">
+      <ObjectId>11848</ObjectId>
+    </schema>
+    <schema id="10" parent="2" name="pg_toast_temp_1">
+      <ObjectId>11849</ObjectId>
+    </schema>
+    <schema id="11" parent="2" name="information_schema">
+      <ObjectId>12153</ObjectId>
+    </schema>
+    <sequence id="12" parent="6" name="memberdetails_id_seq">
+      <ObjectId>16398</ObjectId>
+      <StateNumber>591</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>1</CacheSize>
+    </sequence>
+    <table id="13" parent="6" name="memberdetails">
+      <ObjectId>16400</ObjectId>
+      <StateNumber>611</StateNumber>
+    </table>
+    <column id="14" parent="13" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>591</StateNumber>
+      <DefaultExpression>nextval(&apos;memberdetails_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+      <SequenceName>memberdetails_id_seq</SequenceName>
+    </column>
+    <column id="15" parent="13" name="name">
+      <Position>2</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>591</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="16" parent="13" name="username">
+      <Position>3</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>591</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="17" parent="13" name="password">
+      <Position>4</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>591</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="18" parent="13" name="email_address">
+      <Position>5</Position>
+      <DataType>text|0</DataType>
+      <StateNumber>608</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="19" parent="13" name="verified">
+      <Position>6</Position>
+      <DataType>boolean|0</DataType>
+      <StateNumber>611</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <index id="20" parent="13" name="pk">
+      <ObjectId>16407</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="21" parent="13" name="memberdetails_username_key">
+      <ObjectId>16409</ObjectId>
+      <ColNames>username</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="22" parent="13" name="pk">
+      <ObjectId>16408</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>pk</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <key id="23" parent="13" name="memberdetails_username_key">
+      <ObjectId>16410</ObjectId>
+      <ColNames>username</ColNames>
+      <UnderlyingIndexName>memberdetails_username_key</UnderlyingIndexName>
+    </key>
+  </database-model>
+</dataSource>
