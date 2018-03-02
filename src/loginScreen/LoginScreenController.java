@@ -8,30 +8,32 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import main.Main;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
-import java.awt.*;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LoginScreenController {
 
     @FXML Button signInButton;
-    @FXML TextField userNameTextField;
+    @FXML TextField usernameTextField;
     @FXML PasswordField passwordField;
+    @FXML Label forgotPasswordLabel;
 
     private Connection connection;
 
@@ -53,10 +55,10 @@ public class LoginScreenController {
     }
 
     @FXML protected void signInUser(ActionEvent actionEvent) throws SQLException {
-        System.out.println(userNameTextField.getText() + " " + passwordField.getText());
+        System.out.println(usernameTextField.getText() + " " + passwordField.getText());
 
-        if(checkIfUserExists(userNameTextField.getText())) {
-            if (passwordField.getText().equals(decrypt(getEncryptedUserPassword(userNameTextField.getText()), "ThisI0s16BitPass"))) {
+        if(checkIfUserExists(usernameTextField.getText())) {
+            if (passwordField.getText().equals(decrypt(getEncryptedUserPassword(usernameTextField.getText()), "ThisI0s16BitPass"))) {
                 openMainWindow();
                 System.out.println("Successful Sign In.");
             }
@@ -68,7 +70,7 @@ public class LoginScreenController {
         }
 
         else {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Couldn't find user " + userNameTextField.getText() + ".", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Couldn't find user " + usernameTextField.getText() + ".", ButtonType.OK);
             alert.showAndWait();
         }
     }
@@ -96,10 +98,11 @@ public class LoginScreenController {
     private void openMainWindow() {
         try {
             Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("../MainScreen/MainScreen.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../MainScreen/MainScreenAdmin.fxml"));
             stage.setTitle("FDP MANAGEMENT");
             stage.setScene(new Scene(root));
-            userNameTextField.getScene().getWindow().hide(); //Hide the login Screen
+            stage.initStyle(StageStyle.UNDECORATED);
+            usernameTextField.getScene().getWindow().hide(); //Hide the login Screen
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -130,6 +133,7 @@ public class LoginScreenController {
         return null;
     }
 
+
     //Helper Methods.
     private static byte[] encrypt(String message, String key) {
         Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
@@ -157,5 +161,22 @@ public class LoginScreenController {
     }
 
 
+    public void handleForgotPassword(MouseEvent mouseEvent) {
+        System.out.println("OKAY?");
+        try {
+            Parent root = FXMLLoader.load(Main.class.getResource("../forgotPasswordScreen/ForgotPasswordScreen.fxml"));
+            Scene mainScene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Password Recovery");
+            stage.setScene(mainScene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    protected void finalize() throws Throwable {
+        connection.close();
+    }
 }

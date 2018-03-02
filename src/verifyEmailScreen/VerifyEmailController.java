@@ -76,16 +76,10 @@ public class VerifyEmailController {
         StrSubstitutor strSubstitutor = new StrSubstitutor(valuesMap);
         String resolvedContent = strSubstitutor.replace(Mailer.PRESET_MAIL);
 
-        Runnable runnable = () -> {
-            Mailer.sendMail(currentEmailAddress, "Verification Mail", resolvedContent);
+        Mailer.sendMail(currentEmailAddress, "Verification Mail", resolvedContent);
 
-            mailSentSuccessfullyLabel.setText("Mail sent successfully.");
-            mailSentSuccessfullyLabel.setTextFill(Color.web("#00FF00"));
-        };
-
-        Thread mailerThread = new Thread(runnable);
-        mailerThread.setName("MailerThread");
-        mailerThread.run();
+        mailSentSuccessfullyLabel.setText("Mail sent successfully.");
+        mailSentSuccessfullyLabel.setTextFill(Color.web("#00FF00"));
 
         mailSentSuccessfullyLabel.setVisible(true);
 
@@ -115,6 +109,7 @@ public class VerifyEmailController {
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please try again.", ButtonType.OK);
             alert.showAndWait();
+
         }
     }
 

@@ -50,5 +50,30 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/jfoenix-9.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/commons-email-1.5/commons-email-1.5-tests.jar!/" />
+          <root url="jar://$USER_HOME$/Downloads/commons-email-1.5/commons-email-1.5.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="file://$USER_HOME$/Downloads/commons-email-1.5/apidocs" />
+          <root url="jar://$USER_HOME$/Downloads/commons-email-1.5/commons-email-1.5-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$USER_HOME$/Downloads/commons-email-1.5/commons-email-1.5-sources.jar!/" />
+          <root url="jar://$USER_HOME$/Downloads/commons-email-1.5/commons-email-1.5-test-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>

@@ -28,8 +28,8 @@
     </role>
     <schema id="6" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2018-02-27.19:25:14.447</IntrospectionTimestamp>
-      <IntrospectionStateNumber>611</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2018-03-01.21:23:06.233</IntrospectionTimestamp>
+      <IntrospectionStateNumber>646</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -57,9 +57,13 @@
     </sequence>
     <table id="13" parent="6" name="memberdetails">
       <ObjectId>16400</ObjectId>
-      <StateNumber>611</StateNumber>
+      <StateNumber>645</StateNumber>
     </table>
-    <column id="14" parent="13" name="id">
+    <table id="14" parent="6" name="subjects">
+      <ObjectId>16420</ObjectId>
+      <StateNumber>640</StateNumber>
+    </table>
+    <column id="15" parent="13" name="id">
       <Position>1</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
@@ -68,59 +72,77 @@
       <TypeId>23</TypeId>
       <SequenceName>memberdetails_id_seq</SequenceName>
     </column>
-    <column id="15" parent="13" name="name">
+    <column id="16" parent="13" name="name">
       <Position>2</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>591</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="16" parent="13" name="username">
+    <column id="17" parent="13" name="username">
       <Position>3</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>591</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="17" parent="13" name="password">
+    <column id="18" parent="13" name="password">
       <Position>4</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>591</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="18" parent="13" name="email_address">
+    <column id="19" parent="13" name="email_address">
       <Position>5</Position>
       <DataType>text|0</DataType>
       <StateNumber>608</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="19" parent="13" name="verified">
-      <Position>6</Position>
-      <DataType>boolean|0</DataType>
-      <StateNumber>611</StateNumber>
-      <TypeId>16</TypeId>
+    <column id="20" parent="13" name="department">
+      <Position>7</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>634</StateNumber>
+      <DefaultExpression>&apos;CS&apos;::text</DefaultExpression>
+      <TypeId>25</TypeId>
     </column>
-    <index id="20" parent="13" name="pk">
-      <ObjectId>16407</ObjectId>
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-    </index>
-    <index id="21" parent="13" name="memberdetails_username_key">
+    <column id="21" parent="13" name="prn">
+      <Position>8</Position>
+      <DataType>bigint|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>645</StateNumber>
+      <DefaultExpression>1</DefaultExpression>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="22" parent="13" name="memberdetails_username_key">
       <ObjectId>16409</ObjectId>
       <ColNames>username</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="22" parent="13" name="pk">
-      <ObjectId>16408</ObjectId>
-      <ColNames>id</ColNames>
-      <UnderlyingIndexName>pk</UnderlyingIndexName>
-      <Primary>1</Primary>
-    </key>
-    <key id="23" parent="13" name="memberdetails_username_key">
+    <index id="23" parent="13" name="memberdetails_prn_uindex">
+      <ObjectId>16443</ObjectId>
+      <ColNames>prn</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="24" parent="13" name="memberdetails_username_key">
       <ObjectId>16410</ObjectId>
       <ColNames>username</ColNames>
       <UnderlyingIndexName>memberdetails_username_key</UnderlyingIndexName>
     </key>
+    <column id="25" parent="14" name="prn">
+      <Position>1</Position>
+      <DataType>bigint|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>640</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="26" parent="14" name="subject">
+      <Position>2</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>637</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
   </database-model>
 </dataSource>
