@@ -178,15 +178,18 @@ public class RegisterUserController implements Initializable {
             }};
 
             for (String subject: subjects) {
-                PreparedStatement preparedStatement = mConnection.prepareStatement("SELECT * FROM subjects WHERE abbreviation=?");
+                PreparedStatement preparedStatement = mConnection.prepareStatement("SELECT abbreviation FROM subjects WHERE abbreviation=?");
                 preparedStatement.setString(1, subject);
 
-                try {
-                    ResultSet resultSet = preparedStatement.executeQuery();
-                } catch (SQLException e) {
-                    AlertUtils.displaySQLErrorAlert(e, false);
-                    return;
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) { //TODO: FIXME FOR UNKNOWN SUBJECTS
+                    if (!resultSet.getString("abbreviation").equals(subject)) {
+                        System.out.println("Unknown subjects found");
+                        return;
+                    }
                 }
+
                 preparedStatement.close();
             }
 
@@ -349,18 +352,18 @@ public class RegisterUserController implements Initializable {
 
     private void openDBView() {
         mainScreenAdminController.updatePage(1);
-    }
+    } //FIXME: DOESN'T WORK
 
     private void clearAll() {
         usernameTF.clear();
         usernameTF.clear();
-        autoUsernameCB.setSelected(false);
+//        autoUsernameCB.setSelected(false);
         facultyIdTF.clear();
         emailTF.clear();
         contactTF.clear();
         passwordPF.clear();
-        autoPasswordCB.setSelected(false);
-        genderToggleGroup.getSelectedToggle().setSelected(false);
+//        autoPasswordCB.setSelected(false);
+//        genderToggleGroup.getSelectedToggle().setSelected(false);
         deptCombo.getSelectionModel().clearSelection();
         qualCombo.getSelectionModel().clearSelection();
         coursesChipView.getChips().clear();
