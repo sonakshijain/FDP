@@ -1,0 +1,26 @@
+.jfx-text-field {
+    -jfx-unfocus-color: #ef5350;
+    -jfx-focus-color: #ef5350;
+    -fx-font-size: 18;
+    -fx-text-fill: #212121;
+}
+
+.jfx-list-view {
+    -fx-font-size: 16;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 0 0; 
+    -fx-background-insets: 0.0;
+    -fx-text-fill: #F5F5F5;
+}
+
+.jfx-list-view .jfx-list-cell {
+    -fx-text-fill: #F5F5F5;
+}
+
+.jfx-list-view .jfx-list-cell:even {
+    -fx-background-color: #424242;
+}
+.jfx-list-view .jfx-list-cell:odd {
+    -fx-background-color: #E0E0E0;
+    -fx-text-fill: #212121;
+}

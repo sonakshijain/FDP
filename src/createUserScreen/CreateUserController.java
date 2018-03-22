@@ -1,6 +1,5 @@
 package createUserScreen;
 
-import exception.PasswordContainsUsernameException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +13,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -74,7 +72,7 @@ public class CreateUserController {
             }
 
             if (passwordPF.getText().contains(username) || passwordPF.getText().contains(name)) {
-                throw new PasswordContainsUsernameException();
+                throw new Exception();
             }
 
             if (!passwordsMatch) {
@@ -124,12 +122,6 @@ public class CreateUserController {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please ensure none of the fields are empty.", ButtonType.OK);
             alert.setHeaderText("Some Fields Empty.");
-            alert.showAndWait();
-        } catch (PasswordContainsUsernameException e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "", ButtonType.OK);
-            alert.setHeaderText("Password can't contain the username/name.");
-            alert.setContentText("Please change the password.");
             alert.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();

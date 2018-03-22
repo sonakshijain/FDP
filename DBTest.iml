@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_9" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
@@ -9,51 +9,97 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
-      <library>
+      <library name="Apache Common Email">
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/postgresql-42.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/activation.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/mail.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/commons-lang3-3.7/commons-lang3-3.7-tests.jar!/" />
-          <root url="jar://$USER_HOME$/Downloads/commons-lang3-3.7/commons-lang3-3.7.jar!/" />
+          <root url="file://$MODULE_DIR$/lib/commons-email-1.5-bin/commons-email-1.5" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$USER_HOME$/Downloads/commons-lang3-3.7/commons-lang3-3.7-javadoc.jar!/" />
+          <root url="file://$MODULE_DIR$/lib/commons-email-1.5-bin/commons-email-1.5/apidocs" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$USER_HOME$/Downloads/commons-lang3-3.7/commons-lang3-3.7-sources.jar!/" />
-          <root url="jar://$USER_HOME$/Downloads/commons-lang3-3.7/commons-lang3-3.7-test-sources.jar!/" />
+          <root url="file://$MODULE_DIR$/lib/commons-email-1.5-bin/commons-email-1.5" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/lib/commons-email-1.5-bin/commons-email-1.5" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/lib/commons-email-1.5-bin/commons-email-1.5" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Apache Commons Lang">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/lib/commons-lang3-3.7-bin/commons-lang3-3.7" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="file://$MODULE_DIR$/lib/commons-lang3-3.7-bin/commons-lang3-3.7/apidocs" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/lib/commons-lang3-3.7-bin/commons-lang3-3.7" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/lib/commons-lang3-3.7-bin/commons-lang3-3.7" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/lib/commons-lang3-3.7-bin/commons-lang3-3.7" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Java Mail &amp; Activation">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/lib/javamail-1.4.7" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="file://$MODULE_DIR$/lib/javamail-1.4.7/docs/javadocs" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/lib/javamail-1.4.7/demo" />
+          <root url="file://$MODULE_DIR$/lib/javamail-1.4.7/demo/client" />
+          <root url="file://$MODULE_DIR$/lib/javamail-1.4.7/demo/logging" />
+          <root url="file://$MODULE_DIR$/lib/javamail-1.4.7/demo/outlook" />
+          <root url="file://$MODULE_DIR$/lib/javamail-1.4.7/demo/servlet" />
+          <root url="file://$MODULE_DIR$/lib/javamail-1.4.7/demo/webapp/src/classes" />
+          <root url="file://$MODULE_DIR$/lib/javamail-1.4.7/demo/webapp/src/taglib" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/lib/javamail-1.4.7" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Java Mail &amp; Activation II">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/activation-2.2.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Java Mail">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/javax.mail.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/controlsfx-9.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/controlsfx-samples-9.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/lib/controlsfx-samples-9.0.0.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/jfoenix-9.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/fxsampler-1.0.10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -62,17 +108,19 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/commons-email-1.5/commons-email-1.5-tests.jar!/" />
-          <root url="jar://$USER_HOME$/Downloads/commons-email-1.5/commons-email-1.5.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/postgresql-42.2.1.jar!/" />
         </CLASSES>
-        <JAVADOC>
-          <root url="file://$USER_HOME$/Downloads/commons-email-1.5/apidocs" />
-          <root url="jar://$USER_HOME$/Downloads/commons-email-1.5/commons-email-1.5-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$USER_HOME$/Downloads/commons-email-1.5/commons-email-1.5-sources.jar!/" />
-          <root url="jar://$USER_HOME$/Downloads/commons-email-1.5/commons-email-1.5-test-sources.jar!/" />
-        </SOURCES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jfoenix-9.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
       </library>
     </orderEntry>
   </component>

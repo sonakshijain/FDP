@@ -3,19 +3,45 @@
   <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.7">
     <root id="1"/>
     <database id="2" parent="1" name="members">
-      <ObjectId>16397</ObjectId>
+      <ObjectId>24591</ObjectId>
       <Current>1</Current>
       <Visible>1</Visible>
     </database>
     <database id="3" parent="1" name="postgres">
-      <ObjectId>12441</ObjectId>
+      <ObjectId>12938</ObjectId>
     </database>
-    <role id="4" parent="1" name="pg_signal_backend">
+    <database id="4" parent="1" name="news">
+      <ObjectId>16406</ObjectId>
+    </database>
+    <database id="5" parent="1" name="sona">
+      <ObjectId>24633</ObjectId>
+    </database>
+    <role id="6" parent="1" name="pg_monitor">
+      <ObjectId>3373</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="7" parent="1" name="pg_read_all_settings">
+      <ObjectId>3374</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="8" parent="1" name="pg_read_all_stats">
+      <ObjectId>3375</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="9" parent="1" name="pg_signal_backend">
       <ObjectId>4200</ObjectId>
       <Inherit>1</Inherit>
       <ConnectionLimit>-1</ConnectionLimit>
     </role>
-    <role id="5" parent="1" name="postgres">
+    <role id="10" parent="1" name="pg_stat_scan_tables">
+      <ObjectId>3377</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="11" parent="1" name="postgres">
       <ObjectId>10</ObjectId>
       <SuperRole>1</SuperRole>
       <Inherit>1</Inherit>
@@ -26,123 +52,200 @@
       <ConnectionLimit>-1</ConnectionLimit>
       <BypassRls>1</BypassRls>
     </role>
-    <schema id="6" parent="2" name="public">
+    <schema id="12" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2018-03-01.21:23:06.233</IntrospectionTimestamp>
-      <IntrospectionStateNumber>646</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2018-03-15.08:07:33.816</IntrospectionTimestamp>
+      <IntrospectionStateNumber>630</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
-    <schema id="7" parent="2" name="pg_catalog">
+    <schema id="13" parent="2" name="pg_catalog">
       <ObjectId>11</ObjectId>
     </schema>
-    <schema id="8" parent="2" name="pg_toast">
+    <schema id="14" parent="2" name="pg_toast">
       <ObjectId>99</ObjectId>
     </schema>
-    <schema id="9" parent="2" name="pg_temp_1">
-      <ObjectId>11848</ObjectId>
+    <schema id="15" parent="2" name="pg_temp_1">
+      <ObjectId>11736</ObjectId>
     </schema>
-    <schema id="10" parent="2" name="pg_toast_temp_1">
-      <ObjectId>11849</ObjectId>
+    <schema id="16" parent="2" name="pg_toast_temp_1">
+      <ObjectId>11737</ObjectId>
     </schema>
-    <schema id="11" parent="2" name="information_schema">
-      <ObjectId>12153</ObjectId>
+    <schema id="17" parent="2" name="information_schema">
+      <ObjectId>12648</ObjectId>
     </schema>
-    <sequence id="12" parent="6" name="memberdetails_id_seq">
-      <ObjectId>16398</ObjectId>
-      <StateNumber>591</StateNumber>
-      <SequenceIdentity>1</SequenceIdentity>
+    <sequence id="18" parent="12" name="courses_id_seq">
+      <ObjectId>24661</ObjectId>
+      <StateNumber>623</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
       <BelongsToColumn>1</BelongsToColumn>
       <CacheSize>1</CacheSize>
+      <DataType>integer</DataType>
     </sequence>
-    <table id="13" parent="6" name="memberdetails">
-      <ObjectId>16400</ObjectId>
-      <StateNumber>645</StateNumber>
+    <sequence id="19" parent="12" name="Untitled_id_seq">
+      <ObjectId>24592</ObjectId>
+      <StateNumber>593</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>1</CacheSize>
+      <DataType>integer</DataType>
+    </sequence>
+    <sequence id="20" parent="12" name="memberdetails_id_seq">
+      <ObjectId>24618</ObjectId>
+      <StateNumber>596</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>1</CacheSize>
+      <DataType>integer</DataType>
+    </sequence>
+    <table id="21" parent="12" name="Untitled">
+      <ObjectId>24594</ObjectId>
+      <StateNumber>593</StateNumber>
     </table>
-    <table id="14" parent="6" name="subjects">
-      <ObjectId>16420</ObjectId>
-      <StateNumber>640</StateNumber>
+    <table id="22" parent="12" name="courses">
+      <ObjectId>24663</ObjectId>
+      <StateNumber>623</StateNumber>
     </table>
-    <column id="15" parent="13" name="id">
+    <table id="23" parent="12" name="memberdetails">
+      <ObjectId>24620</ObjectId>
+      <StateNumber>630</StateNumber>
+    </table>
+    <column id="24" parent="21" name="id">
       <Position>1</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>591</StateNumber>
-      <DefaultExpression>nextval(&apos;memberdetails_id_seq&apos;::regclass)</DefaultExpression>
-      <TypeId>23</TypeId>
-      <SequenceName>memberdetails_id_seq</SequenceName>
+      <StateNumber>593</StateNumber>
+      <DefaultExpression>nextval(&apos;&quot;Untitled_id_seq&quot;&apos;::regclass)</DefaultExpression>
+      <SequenceName>Untitled_id_seq</SequenceName>
     </column>
-    <column id="16" parent="13" name="name">
+    <column id="25" parent="21" name="Name">
       <Position>2</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>591</StateNumber>
-      <TypeId>25</TypeId>
+      <StateNumber>593</StateNumber>
     </column>
-    <column id="17" parent="13" name="username">
+    <column id="26" parent="21" name="Username">
       <Position>3</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>591</StateNumber>
-      <TypeId>25</TypeId>
+      <StateNumber>593</StateNumber>
     </column>
-    <column id="18" parent="13" name="password">
+    <column id="27" parent="21" name="Password">
       <Position>4</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>591</StateNumber>
-      <TypeId>25</TypeId>
+      <StateNumber>593</StateNumber>
     </column>
-    <column id="19" parent="13" name="email_address">
-      <Position>5</Position>
-      <DataType>text|0</DataType>
-      <StateNumber>608</StateNumber>
-      <TypeId>25</TypeId>
-    </column>
-    <column id="20" parent="13" name="department">
-      <Position>7</Position>
-      <DataType>text|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>634</StateNumber>
-      <DefaultExpression>&apos;CS&apos;::text</DefaultExpression>
-      <TypeId>25</TypeId>
-    </column>
-    <column id="21" parent="13" name="prn">
-      <Position>8</Position>
-      <DataType>bigint|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>645</StateNumber>
-      <DefaultExpression>1</DefaultExpression>
-      <TypeId>20</TypeId>
-    </column>
-    <index id="22" parent="13" name="memberdetails_username_key">
-      <ObjectId>16409</ObjectId>
-      <ColNames>username</ColNames>
+    <index id="28" parent="21" name="untitled_pk">
+      <ObjectId>24601</ObjectId>
+      <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="23" parent="13" name="memberdetails_prn_uindex">
-      <ObjectId>16443</ObjectId>
-      <ColNames>prn</ColNames>
+    <index id="29" parent="21" name="Untitled_Username_key">
+      <ObjectId>24603</ObjectId>
+      <ColNames>Username</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="24" parent="13" name="memberdetails_username_key">
-      <ObjectId>16410</ObjectId>
-      <ColNames>username</ColNames>
-      <UnderlyingIndexName>memberdetails_username_key</UnderlyingIndexName>
+    <key id="30" parent="21" name="untitled_pk">
+      <ObjectId>24602</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>untitled_pk</UnderlyingIndexName>
+      <Primary>1</Primary>
     </key>
-    <column id="25" parent="14" name="prn">
+    <key id="31" parent="21" name="Untitled_Username_key">
+      <ObjectId>24604</ObjectId>
+      <ColNames>Username</ColNames>
+      <UnderlyingIndexName>Untitled_Username_key</UnderlyingIndexName>
+    </key>
+    <column id="32" parent="22" name="id">
       <Position>1</Position>
-      <DataType>bigint|0</DataType>
+      <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>640</StateNumber>
-      <TypeId>20</TypeId>
+      <StateNumber>623</StateNumber>
+      <DefaultExpression>nextval(&apos;courses_id_seq&apos;::regclass)</DefaultExpression>
+      <SequenceName>courses_id_seq</SequenceName>
     </column>
-    <column id="26" parent="14" name="subject">
+    <column id="33" parent="22" name="name">
+      <Position>2</Position>
+      <DataType>text|0</DataType>
+      <StateNumber>623</StateNumber>
+    </column>
+    <column id="34" parent="22" name="abbreviation">
+      <Position>3</Position>
+      <DataType>text|0</DataType>
+      <StateNumber>629</StateNumber>
+    </column>
+    <index id="35" parent="22" name="courses_pkey">
+      <ObjectId>24670</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="36" parent="22" name="courses_pkey">
+      <ObjectId>24671</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>courses_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="37" parent="23" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>596</StateNumber>
+      <DefaultExpression>nextval(&apos;memberdetails_id_seq&apos;::regclass)</DefaultExpression>
+      <SequenceName>memberdetails_id_seq</SequenceName>
+    </column>
+    <column id="38" parent="23" name="name">
       <Position>2</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>637</StateNumber>
-      <TypeId>25</TypeId>
+      <StateNumber>596</StateNumber>
     </column>
+    <column id="39" parent="23" name="username">
+      <Position>3</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>596</StateNumber>
+    </column>
+    <column id="40" parent="23" name="password">
+      <Position>4</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>596</StateNumber>
+    </column>
+    <column id="41" parent="23" name="prn">
+      <Position>5</Position>
+      <DataType>text|0</DataType>
+      <StateNumber>622</StateNumber>
+    </column>
+    <column id="42" parent="23" name="email_address">
+      <Position>6</Position>
+      <DataType>text|0</DataType>
+      <StateNumber>603</StateNumber>
+    </column>
+    <column id="43" parent="23" name="subjects">
+      <Position>7</Position>
+      <DataType>text[]|0</DataType>
+      <StateNumber>630</StateNumber>
+    </column>
+    <column id="44" parent="23" name="qualifications">
+      <Position>8</Position>
+      <DataType>text|0</DataType>
+      <StateNumber>628</StateNumber>
+    </column>
+    <index id="45" parent="23" name="memberdetails_username_key">
+      <ObjectId>24629</ObjectId>
+      <ColNames>username</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="46" parent="23" name="memberdetails_prn_uindex">
+      <ObjectId>24652</ObjectId>
+      <ColNames>prn</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="47" parent="23" name="memberdetails_username_key">
+      <ObjectId>24630</ObjectId>
+      <ColNames>username</ColNames>
+      <UnderlyingIndexName>memberdetails_username_key</UnderlyingIndexName>
+    </key>
   </database-model>
 </dataSource>

@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<BorderPane fx:controller="MainScreen.MainScreenAdminController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1184.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1184.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainScreen.MainScreenAdminController">
    <left>
-      <StackPane prefHeight="768.0" prefWidth="324.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #212121;" BorderPane.alignment="CENTER">
+      <StackPane fx:id="left" maxHeight="1.7976931348623157E308" prefHeight="725.0" prefWidth="324.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #212121;" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="768.0" prefWidth="277.0" style="-fx-background-color: #212121; .: ;">
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="277.0" style="-fx-background-color: #212121; .: ;">
                <children>
                   <StackPane prefHeight="129.0" prefWidth="313.0">
                      <children>
@@ -44,7 +38,7 @@
                   </StackPane>
                   <VBox prefHeight="180.0" prefWidth="324.0" style="-fx-background-color: #212121;" stylesheets="@style.css">
                      <children>
-                        <JFXButton fx:id="viewDatabaseButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" prefHeight="50.0" ripplerFill="WHITE" text=" View Database">
+                        <JFXButton fx:id="viewDatabaseButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" onAction="#openDBView" prefHeight="50.0" ripplerFill="WHITE" text=" View Database">
                            <font>
                               <Font name="DejaVu Sans" size="18.0" />
                            </font>
@@ -59,7 +53,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton fx:id="registerUserButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" prefHeight="50.0" text=" Register New User">
+                        <JFXButton fx:id="registerUserButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" onAction="#openRegisterView" prefHeight="50.0" text=" Register New User">
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
@@ -70,11 +64,10 @@
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../icons/user.png" />
-                                 </image>
-                              </ImageView>
+                                 </image>                              </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="updateCredButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" prefHeight="50.0" text=" Update Credentials">
+                        <JFXButton fx:id="updateCredButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" onAction="#openUpdateCredentialsView" prefHeight="50.0" text=" Update Credentials">
                            <font>
                               <Font name="DejaVu Sans" size="18.0" />
                            </font>
@@ -96,26 +89,11 @@
          </children>
       </StackPane>
    </left>
-   <top>
-      <StackPane prefHeight="39.0" prefWidth="1184.0" style="-fx-background-color: #212121; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" BorderPane.alignment="CENTER">
+   <center>
+      <StackPane fx:id="mainStackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <JFXButton fx:id="closeButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="30.0" prefWidth="33.0" ripplerFill="WHITE" text=" " AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <graphic>
-                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/close.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-               </children>
-            </AnchorPane>
+            <AnchorPane fx:id="dataView" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </StackPane>
-   </top>
-   <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fafafa;" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

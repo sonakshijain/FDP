@@ -5,11 +5,9 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 
 import javax.mail.*;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Properties;
 
 public class Mailer {

@@ -1,79 +1,85 @@
 package MainScreen;
 
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXButton;
 import javafx.animation.FadeTransition;
-import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.stage.Stage;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import registerUserScreen.RegisterUserController;
+import util.AlertUtils;
+import util.ConnectionUtils;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ResourceBundle;
 
-public class MainScreenAdminController {
-
+public class MainScreenAdminController implements Initializable {
+//
+    @FXML private BorderPane root;
     @FXML private JFXButton viewDatabaseButton;
     @FXML private JFXButton registerUserButton;
     @FXML private JFXButton updateCredButton;
     @FXML private JFXButton closeButton;
     @FXML private AnchorPane dataView;
+    @FXML private TextField labelView;
+    @FXML private StackPane mainStackPane;
 
-    private AnchorPane dbView; //TODO ADD MORE;
+    @FXML RegisterUserController registerUserController;
+
+    private AnchorPane dbView;
+    private AnchorPane registrationView;
+    private AnchorPane updateCredentialsView;
 
     private Connection connection;
 
     private double xOffset = 0;
     private double yOffset = 0;
+    private boolean firstRun = true;
 
-    public MainScreenAdminController() {
-            connection = null;
-            try {
-                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/members", "postgres", "password");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR, "", ButtonType.OK);
-                alert.setHeaderText("Couldn't connect to the database.");
-                alert.setContentText(e.getMessage());
-                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                alert.showAndWait();
-                System.exit(1);
-            }
-
-        Parent root = null;
+   @Override
+    public void initialize(URL urlLocation, ResourceBundle resourceBundle) {
+        connection = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("MainScreenAdmin.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
+            connection = ConnectionUtils.getDBConnection();
+        } catch (Exception e) {
+            AlertUtils.displaySQLErrorAlert(e, true);
         }
-        Stage primaryStage = (Stage) viewDatabaseButton.getScene().getWindow();
 
-            root.setOnMousePressed(event -> {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
-            });
-            root.setOnMouseDragged(event -> {
-                primaryStage.setX(event.getScreenX() - xOffset);
-                primaryStage.setY(event.getScreenY() - yOffset);
-            });
-//            createPages();
-        }
+        //Cache all the pages
+        handleLoad();
+
+
+
+        setContent(dbView);
+
+    }
+
+
+
 
     //Set selected node to a content holder
-    private void setNode(Node node) {
-        dataView.getChildren().clear();
-        dataView.getChildren().add((Node) node);
+    private void setContent(Node node) {
 
-        FadeTransition ft = new FadeTransition(Duration.millis(1500));
+        dataView.getChildren().clear();
+
+        while (node == null) {}
+
+        dataView.getChildren().add(node);
+
+        AnchorPane.setBottomAnchor(node, 0D);
+        AnchorPane.setTopAnchor(node, 0D);
+        AnchorPane.setLeftAnchor(node, 0D);
+        AnchorPane.setRightAnchor(node, 0D);
+
+        FadeTransition ft = new FadeTransition(Duration.millis(500));
         ft.setNode(node);
         ft.setFromValue(0.1);
         ft.setToValue(1);
@@ -82,20 +88,53 @@ public class MainScreenAdminController {
         ft.play();
     }
 
-    //Load all fxml files to a cache for swapping
-    private void createPages() {
+    public void handleLoad() {
         try {
             dbView = FXMLLoader.load(getClass().getResource("../dbViewFragment/DBView.fxml"));
-//            list = FXMLLoader.load(getClass().getResource("/modules/Profile.fxml"));
-//            add = FXMLLoader.load(getClass().getResource("/modules/Register.fxml"));
+            registrationView = FXMLLoader.load(getClass().getResource("../registerUserScreen/RegisterUserScreen.fxml"));
+            updateCredentialsView = FXMLLoader.load(getClass().getResource("../updateCredentialsScreen/UpdateCredentials.fxml"));
 
-            //set up default node on page load
-            setNode(dbView);
-        } catch (IOException ex) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+            //FIXME: GETTING CONTROLLER ISSUE
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("../registerUserScreen/RegisterUserScreen.fxml"));
+//            Parent root = loader.load();
+//            registerUserController = loader.getController();
+//            registerUserController.init(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
 
+    public void openDBView(ActionEvent actionEvent) {
+        setContent(dbView);
+    }
 
+    public void openRegisterView(ActionEvent actionEvent) {
+        setContent(registrationView);
+    }
+
+    public void openUpdateCredentialsView(ActionEvent actionEvent) {
+        setContent(updateCredentialsView);
+    }
+
+    public void updatePage(int i) {
+        switch (i) {
+            case 1: {
+                setContent(dbView);
+                break;
+            }
+
+            case 2: {
+                setContent(registrationView);
+                break;
+            }
+
+            case 3: {
+                setContent(updateCredentialsView);
+                break;
+            }
+        }
+    }
 }
+
+
