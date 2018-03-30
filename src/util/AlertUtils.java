@@ -7,6 +7,7 @@ import javafx.scene.layout.Region;
 public class AlertUtils {
 
     public static void displaySQLErrorAlert(Exception e, boolean exit) {
+
         e.printStackTrace();
 
         Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), new ButtonType("Exit"));
@@ -18,9 +19,8 @@ public class AlertUtils {
     }
 
     public static void displayConfirmation(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "", new ButtonType("OK"));
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, message, new ButtonType("OK"));
         alert.setHeaderText("Alert");
-        alert.setContentText(message);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
     }

@@ -15,7 +15,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../loginScreen/LoginScreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../common/login/LoginScreen.fxml"));
 
         JFXDecorator decorator = new JFXDecorator(primaryStage, root);
 

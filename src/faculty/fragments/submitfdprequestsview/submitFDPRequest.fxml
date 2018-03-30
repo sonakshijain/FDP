@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="611.0" prefWidth="890.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="faculty.fragments.submitfdprequestsview.SubmitFDPRequestController">
+   <children>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" StackPane.alignment="CENTER">
+         <children>
+            <JFXToolbar fx:id="toolbar" prefHeight="40.0" prefWidth="890.0" style="-fx-background-color: #212121;">
+               <center>
+                  <Label text="Raise a request" textFill="WHITESMOKE" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Tahoma" size="21.0" />
+                     </font>
+                  </Label>
+               </center>
+            </JFXToolbar>
+            <VBox alignment="CENTER" prefHeight="0.0" prefWidth="890.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox alignment="TOP_CENTER" prefHeight="464.0" prefWidth="890.0" spacing="50.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="464.0" prefWidth="388.0" spacing="100.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <JFXTextField fx:id="fdpNameTF" labelFloat="true" promptText="FDP Name" />
+                              <JFXTextArea fx:id="fdpCommentsTA" labelFloat="true" promptText="FDP Comments" wrapText="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="464.0" prefWidth="396.0" spacing="50.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <JFXDatePicker fx:id="dateFrom" promptText="From" />
+                              <JFXDatePicker fx:id="dateTo" promptText="To" />
+                              <Label fx:id="daysCountLabel" disable="true" text="Duration: &quot;X&quot; days" underline="true" />
+                           </children></VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                     </padding>
+                  </HBox>
+                  <JFXButton fx:id="submitButton" alignment="CENTER" buttonType="RAISED" defaultButton="true" onAction="#handleSubmit" ripplerFill="#ff6767" style="-fx-background-color: #b71c1c;" text="SUBMIT" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </JFXButton>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

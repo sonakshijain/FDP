@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/src/createUserScreen/CreateUserController.java" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/src/dbViewFragment/DBViewController.java" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/src/forgotPasswordScreen/ForgotPasswordController.java" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/src/loginScreen/LoginScreenController.java" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/src/registerUserScreen/RegisterUserController.java" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/src/updateCredentialsScreen/UpdateCredentialsController.java" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/src/verifyEmailScreen/VerifyEmailController.java" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/admin/fragments/dbview/DBViewController.java" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/admin/fragments/registeruserview/RegisterUserController.java" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/admin/fragments/updatecredentialsview/UpdateCredentialsController.java" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/common/forgotpassword/ForgotPasswordController.java" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/common/login/LoginScreenController.java" dialect="PostgreSQL" />
     <file url="PROJECT" dialect="PostgreSQL" />
   </component>
 </project>

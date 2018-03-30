@@ -1,0 +1,8 @@
+.jfx-text-field, .jfx-text-area, .label {
+    -fx-font-size: 20;
+}
+
+.jfx-button {
+    -fx-font-size: 18;
+    -fx-text-fill: #F5F5F5;
+}
