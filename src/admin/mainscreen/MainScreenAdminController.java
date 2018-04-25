@@ -1,18 +1,25 @@
 package admin.mainscreen;
 
+import admin.fragments.registeruserview.RegisterUserController;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDecorator;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
-import admin.fragments.registeruserview.RegisterUserController;
 import util.AlertUtils;
 import util.ConnectionUtils;
 
@@ -31,6 +38,10 @@ public class MainScreenAdminController implements Initializable {
     @FXML private AnchorPane dataView;
     @FXML private TextField labelView;
     @FXML private StackPane mainStackPane;
+    @FXML
+    private JFXButton logoutButton;
+    @FXML
+    private Label welcomeLabel;
 
     @FXML RegisterUserController registerUserController;
 
@@ -39,10 +50,6 @@ public class MainScreenAdminController implements Initializable {
     private AnchorPane updateCredentialsView;
 
     private Connection connection;
-
-    private double xOffset = 0;
-    private double yOffset = 0;
-    private boolean firstRun = true;
 
    @Override
     public void initialize(URL urlLocation, ResourceBundle resourceBundle) {
@@ -89,13 +96,6 @@ public class MainScreenAdminController implements Initializable {
             dbView = FXMLLoader.load(getClass().getResource("../fragments/dbview/DBView.fxml"));
             registrationView = FXMLLoader.load(getClass().getResource("../fragments/registeruserview/RegisterUserScreen.fxml"));
             updateCredentialsView = FXMLLoader.load(getClass().getResource("../fragments/updatecredentialsview/UpdateCredentials.fxml"));
-
-            //FIXME: GETTING CONTROLLER ISSUE
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("../registerUserScreen/RegisterUserScreen.fxml"));
-//            Parent root = loader.load();
-//            registerUserController = loader.getController();
-//            registerUserController.init(this);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -130,6 +130,44 @@ public class MainScreenAdminController implements Initializable {
                 break;
             }
         }
+    }
+
+    @SuppressWarnings("Duplicates")
+    public void handleLogout(ActionEvent actionEvent) {
+        Alert logoutAlert = new Alert(Alert.AlertType.WARNING, "Are you sure you want to log out?", ButtonType.YES, ButtonType.NO);
+        logoutAlert.setHeaderText("Log out");
+        logoutAlert.showAndWait();
+
+        if (logoutAlert.getResult() == ButtonType.YES) {
+            //open login window
+            try {
+                Stage primaryStage = new Stage();
+
+                Parent root = FXMLLoader.load(getClass().getResource("../../common/login/LoginScreen.fxml"));
+
+                JFXDecorator decorator = new JFXDecorator(primaryStage, root);
+
+                decorator.getStylesheets().add(getClass().getResource("../../main/style.css").toExternalForm());
+
+                decorator.setTitle("LOGIN");
+
+                primaryStage.setScene(new Scene(decorator));
+                primaryStage.setResizable(false);
+
+                primaryStage.show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            }
+
+            //close the current window
+            root.getScene().getWindow().hide();
+        }
+    }
+
+    public void setWelcomeLabel(String name) {
+        welcomeLabel.setText("Welcome, " + name);
     }
 }
 

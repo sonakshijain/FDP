@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.*?>
 <BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1184.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.mainscreen.MainScreenAdminController">
    <left>
       <StackPane fx:id="left" maxHeight="1.7976931348623157E308" prefHeight="725.0" prefWidth="324.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #212121;" BorderPane.alignment="CENTER">
@@ -36,7 +36,17 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </VBox.margin>
                   </StackPane>
-                  <VBox prefHeight="180.0" prefWidth="324.0" style="-fx-background-color: #212121;" stylesheets="@style.css">
+                   <Label fx:id="welcomeLabel" maxWidth="1.7976931348623157E308" text="Welcome, ${name}"
+                          textFill="WHITE">
+                       <padding>
+                           <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                       </padding>
+                       <font>
+                           <Font name="System Bold" size="18.0"/>
+                       </font>
+                   </Label>
+                   <VBox prefHeight="180.0" prefWidth="324.0" spacing="10.0" style="-fx-background-color: #212121;"
+                         stylesheets="@style.css">
                      <children>
                         <JFXButton fx:id="viewDatabaseButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" onAction="#openDBView" prefHeight="50.0" ripplerFill="WHITE" text=" View Database">
                            <font>
@@ -82,6 +92,26 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
+                         <JFXButton fx:id="logoutButton" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="135.0"
+                                    maxWidth="1.7976931348623157E308" onAction="#handleLogout" prefHeight="50.0"
+                                    text="Log out">
+                             <font>
+                                 <Font name="DejaVu Sans" size="18.0"/>
+                             </font>
+                             <graphic>
+                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                     <image>
+                                         <Image url="@../../rest/icons/exit.png"/>
+                                     </image>
+                                 </ImageView>
+                             </graphic>
+                             <VBox.margin>
+                                 <Insets bottom="5.0" left="5.0" right="5.0"/>
+                             </VBox.margin>
+                             <padding>
+                                 <Insets bottom="10.0" left="15.0" right="10.0" top="10.0"/>
+                             </padding>
+                         </JFXButton>
                      </children>
                   </VBox>
                </children>

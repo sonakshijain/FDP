@@ -15,8 +15,11 @@ public class ConnectionUtils {
     private static final String CONN_URL = "jdbc:postgresql://" + HOST_NAME + ":" + PORT + "/" + DB_NAME;
 
     public static Connection getDBConnection() throws SQLException {
+
         System.out.println(CONN_URL + " " + USER_NAME + " " + PASSWORD);
+
         Connection connection = DriverManager.getConnection(CONN_URL, USER_NAME, PASSWORD);
+
         return connection;
     }
 

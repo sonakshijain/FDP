@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="FDP Management JAR">
+    <output-path>$PROJECT_DIR$/out/artifacts/FDP_Management_JAR</output-path>
+    <root id="archive" name="FDP Management JAR.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

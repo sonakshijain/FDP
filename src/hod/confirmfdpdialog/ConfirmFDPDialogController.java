@@ -25,8 +25,6 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-import static javafx.scene.control.ButtonType.FINISH;
-import static javafx.scene.control.ButtonType.OK;
 import static javafx.scene.control.ButtonType.YES;
 
 public class ConfirmFDPDialogController implements Initializable {
@@ -80,7 +78,6 @@ public class ConfirmFDPDialogController implements Initializable {
         fillDetails();
     }
 
-
     public void submitRequest(ActionEvent actionEvent) {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Accept the FDP Request?", YES, ButtonType.NO);
@@ -99,7 +96,8 @@ public class ConfirmFDPDialogController implements Initializable {
                         "date_from = ?, " +
                         "date_to = ?, " +
                         "days = ?, " +
-                        "hod_rec = TRUE " +
+                        "hod_rec = TRUE," +
+                        "seen_by_hod = TRUE " +
                         "WHERE fdp_id = ?");
 
                 fdpDetailsUpdateStmt.setString(1, fdpNameTF.getText());
@@ -140,9 +138,72 @@ public class ConfirmFDPDialogController implements Initializable {
 
             }
 
+            fdpNameTF.getScene().getWindow().hide();
+
         }
 
 
+    }
 
+    public void denyRequest(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Deny the FDP Request?", YES, ButtonType.NO);
+        alert.setHeaderText("Confirmation");
+        alert.showAndWait();
+
+        if (alert.getResult() == YES) {
+
+            boolean completedWithoutErrors = false;
+
+            try {
+
+                PreparedStatement fdpDetailsUpdateStmt = mConnection.prepareStatement("UPDATE fdp_details SET " +
+                        "fdp_name = ?, " +
+                        "comments = ?, " +
+                        "date_from = ?, " +
+                        "date_to = ?, " +
+                        "days = ?, " +
+                        "hod_rec = FALSE," +
+                        "seen_by_hod = TRUE " +
+                        "WHERE fdp_id = ?");
+
+                fdpDetailsUpdateStmt.setString(1, fdpNameTF.getText());
+                fdpDetailsUpdateStmt.setString(2, detailsTF.getText());
+                fdpDetailsUpdateStmt.setDate(3, java.sql.Date.valueOf(fromDate.getValue()));
+                fdpDetailsUpdateStmt.setDate(4, java.sql.Date.valueOf(fromDate.getValue()));
+                fdpDetailsUpdateStmt.setInt(5, (int) durationLabel.getText().charAt(0));
+                fdpDetailsUpdateStmt.setInt(6, mCurrentFdp.getFdpID());
+
+                fdpDetailsUpdateStmt.execute();
+
+                PreparedStatement remarksUpdateStmt = mConnection.prepareStatement("UPDATE fdp_requests SET " +
+                        "remarks = ?" +
+                        "WHERE fdp_id = ?");
+
+                remarksUpdateStmt.setString(1, remarksTA.getText());
+                remarksUpdateStmt.setInt(2, mCurrentFdp.getFdpID());
+
+                remarksUpdateStmt.execute();
+
+                completedWithoutErrors = true;
+
+            } catch (SQLException e) {
+
+                AlertUtils.displaySQLErrorAlert(e, false);
+
+                if (!completedWithoutErrors) {
+                    //TODO
+                }
+
+            } finally {
+
+                if (completedWithoutErrors) {
+                    Alert finalAlert = new Alert(Alert.AlertType.INFORMATION, "Request denied successfully.", ButtonType.OK);
+                    finalAlert.setHeaderText("Success");
+                    finalAlert.showAndWait();
+                }
+
+            }
+
+        }
     }
 }

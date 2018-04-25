@@ -1,21 +1,28 @@
-package hod.fragments.allfdpscreen;
+package hod.fragments.allpendingfdpscreen;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDecorator;
 import com.jfoenix.controls.JFXTextField;
-import javafx.beans.property.SimpleStringProperty;
+import hod.confirmfdpdialog.ConfirmFDPDialogController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import rest.Fdp;
 import util.AlertUtils;
 import util.ConnectionUtils;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.Date;
@@ -23,18 +30,26 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class HODAllFDPController implements Initializable {
+public class HODAllPendingFDPController implements Initializable {
 
-    @FXML public TableView<Fdp> allFDPsView;
-    @FXML public TableColumn<Fdp, String> idCol;
-    @FXML public TableColumn<Fdp, String> aboutCol;
-    @FXML public TableColumn<Fdp, Date> dateFromCol;
-    @FXML public TableColumn<Fdp, Date> dateToCol;
-    @FXML public TableColumn<Fdp, Number> daysCol;
-    @FXML public TableColumn<Fdp, String> requestedByCol;
     @FXML
-    public TableColumn<Fdp, String> acceptedCol;
-    @FXML public JFXTextField searchBar;
+    public TableView<Fdp> allFDPsView;
+    @FXML
+    public TableColumn<Fdp, String> idCol;
+    @FXML
+    public TableColumn<Fdp, String> aboutCol;
+    @FXML
+    public TableColumn<Fdp, Date> dateFromCol;
+    @FXML
+    public TableColumn<Fdp, Date> dateToCol;
+    @FXML
+    public TableColumn<Fdp, Number> daysCol;
+    @FXML
+    public TableColumn<Fdp, String> requestedByCol;
+    @FXML
+    public JFXTextField searchBar;
+    @FXML
+    public JFXButton refreshButton;
 
     private ObservableList<Fdp> mFdpRequests = FXCollections.observableArrayList();
 
@@ -48,12 +63,11 @@ public class HODAllFDPController implements Initializable {
             AlertUtils.displaySQLErrorAlert(e, true);
         }
 
-        initTableView();
+        initTreeTableView();
 
         setupSearchField(allFDPsView, searchBar);
 
-        setAutoRefresh();
-
+//        setAutoRefresh();
     }
 
     private void setAutoRefresh() {
@@ -67,10 +81,10 @@ public class HODAllFDPController implements Initializable {
             }
         };
 
-        timer.scheduleAtFixedRate(task, 1000, 1000);
+        timer.scheduleAtFixedRate(task, 0, 1000);
     }
 
-    private void initTableView() {
+    private void initTreeTableView() {
 
         idCol.setCellValueFactory(new PropertyValueFactory<>("fdpName"));
         aboutCol.setCellValueFactory(new PropertyValueFactory<>("comments"));
@@ -78,10 +92,6 @@ public class HODAllFDPController implements Initializable {
         dateToCol.setCellValueFactory(new PropertyValueFactory<>("dateToProperty"));
         daysCol.setCellValueFactory(new PropertyValueFactory<>("days"));
         requestedByCol.setCellValueFactory(new PropertyValueFactory<>("requestedByName"));
-        acceptedCol.setCellValueFactory(param -> {
-            if (param.getValue().hodRec.get()) return new SimpleStringProperty("Accepted");
-            else return new SimpleStringProperty("Not Accepted");
-        });
 
         loadRequests();
 
@@ -93,6 +103,43 @@ public class HODAllFDPController implements Initializable {
         dateFromCol.prefWidthProperty().bind(allFDPsView.widthProperty().multiply(0.1));
         daysCol.prefWidthProperty().bind(allFDPsView.widthProperty().multiply(0.1));
         requestedByCol.prefWidthProperty().bind(allFDPsView.widthProperty().multiply(0.2));
+
+        allFDPsView.setOnMousePressed(event -> {
+            if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                Fdp selectedFdp = allFDPsView.getSelectionModel().getSelectedItem();
+                try {
+                    openFDPAbout(selectedFdp);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    private void openFDPAbout(Fdp selectedFdp) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../confirmfdpdialog/ConfirmFDPDialog.fxml"));
+        Parent root = loader.load();
+
+        ConfirmFDPDialogController controller = loader.getController();
+        controller.setCurrentFdp(selectedFdp);
+
+        Stage stage = new Stage();
+
+        JFXDecorator decorator = new JFXDecorator(stage, root);
+        decorator.setTitle("Requested FDP's");
+        Scene scene = new Scene(decorator);
+
+        stage.setOnHidden(event -> {
+            refreshTable(null);
+            System.out.println("Refreshed.");
+            stage.close();
+        });
+
+        stage.setScene(scene);
+
+        stage.showAndWait();
+
     }
 
     private void loadRequests() {
@@ -143,13 +190,13 @@ public class HODAllFDPController implements Initializable {
             filteredList.setPredicate(fdp -> {
                 if (newValue == null || newValue.isEmpty()) return true; //if empty, display all
 
-                if (String.valueOf(fdp.fdpName).toLowerCase().contains(newValue.toLowerCase())) return true; // fdpName match
+                if (String.valueOf(fdp.fdpName).toLowerCase().contains(newValue.toLowerCase()))
+                    return true; // fdpName match
 
-                if (String.valueOf(fdp.requestedByName).toLowerCase().contains(newValue.toLowerCase())) return true; //RequestedBy Matched
+                if (String.valueOf(fdp.requestedByName).toLowerCase().contains(newValue.toLowerCase()))
+                    return true; //RequestedBy Matched
 
                 if (String.valueOf(fdp.dateFromProperty.getValue().toString()).contains(newValue)) return true;
-
-                if (String.valueOf("Accepted").contains(newValue)) return true;
 
                 return String.valueOf(fdp.comments).toLowerCase().contains(newValue.toLowerCase());
 
@@ -158,9 +205,9 @@ public class HODAllFDPController implements Initializable {
 
         SortedList<Fdp> sortedList = new SortedList<>(filteredList);
 
-        sortedList.comparatorProperty().bind(allFDPsView.comparatorProperty());
+        sortedList.comparatorProperty().bind(tableView.comparatorProperty());
 
-        allFDPsView.setItems(sortedList);
+        tableView.setItems(sortedList);
     }
 
     public void refreshTable(ActionEvent actionEvent) {

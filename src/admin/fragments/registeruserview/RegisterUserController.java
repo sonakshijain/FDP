@@ -3,7 +3,6 @@ package admin.fragments.registeruserview;
 import admin.mainscreen.MainScreenAdminController;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
-import com.jfoenix.effects.JFXDepthManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -98,12 +97,10 @@ public class RegisterUserController implements Initializable {
 
         designationCombo.getItems().clear();
         designationCombo.getItems().addAll(
-                "admin",
+                "Admin",
                 "Head of Department",
                 "Faculty"
         );
-
-        JFXDepthManager.setDepth(coursesChipView, 5);
 
     }
 
@@ -121,6 +118,7 @@ public class RegisterUserController implements Initializable {
     private void generateUsername() {
 
         String[] words = fullNameTF.getText().split(" ");
+
         for (int i = 0; i < words.length; i++) {
             words[i] = words[i].replaceAll("[^\\w]", "");
         }
@@ -153,8 +151,6 @@ public class RegisterUserController implements Initializable {
     }
 
     public void createUser(ActionEvent actionEvent) {
-
-//        mainScreenAdminController.updatePage(1); //TODO:FIXME
 
         PreparedStatement facultyDetailsPS;
         PreparedStatement facultyCredentialsPS;
@@ -355,6 +351,7 @@ public class RegisterUserController implements Initializable {
     } //FIXME: DOESN'T WORK
 
     private void clearAll() {
+        fullNameTF.clear();
         usernameTF.clear();
         usernameTF.clear();
 //        autoUsernameCB.setSelected(false);

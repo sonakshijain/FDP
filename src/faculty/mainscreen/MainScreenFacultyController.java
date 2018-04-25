@@ -1,6 +1,9 @@
 package faculty.mainscreen;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDecorator;
+import common.updatecredentials.UpdateCredentialsController;
+import faculty.fragments.allfdpscreen.FacultyAllFDPScreenController;
 import faculty.fragments.submitfdprequestsview.SubmitFDPRequestController;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
@@ -8,9 +11,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import util.ConnectionUtils;
 import util.DialogUtils;
@@ -21,6 +30,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+@SuppressWarnings("Duplicates")
 public class MainScreenFacultyController implements Initializable {
 
     @FXML private BorderPane root;
@@ -30,15 +40,23 @@ public class MainScreenFacultyController implements Initializable {
     @FXML private JFXButton updateCredButton;
     @FXML private StackPane mainStackPane;
     @FXML private AnchorPane dataView;
+    UpdateCredentialsController mUpdateCredentialsController;
+    FacultyAllFDPScreenController mAllFDPScreenController;
 
     private Connection mConnection;
 
     //Fragments
     private StackPane submitFDPRequestView;
-    private int mFacultyID;
+    @FXML
+    private Label welcomeLabel;
+    private String mCurrentUser;
 
     //Controllers
     SubmitFDPRequestController mSubmitFDPRequestController;
+    private StackPane updateCredentialsView;
+    private StackPane allFDPScreen;
+    private int mFacultyID;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -49,11 +67,12 @@ public class MainScreenFacultyController implements Initializable {
         }
 
         handleLoad();
+
         setContent(submitFDPRequestView);
     }
 
     public void openAllFDPsView(ActionEvent event) {
-
+        setContent(allFDPScreen);
     }
 
     public void openSubmitFDPView(ActionEvent event) {
@@ -61,7 +80,7 @@ public class MainScreenFacultyController implements Initializable {
     }
 
     public void openUpdateCredentialsFacultyView(ActionEvent event) {
-
+        setContent(updateCredentialsView);
     }
 
     private void setContent(Node node) {
@@ -86,27 +105,67 @@ public class MainScreenFacultyController implements Initializable {
 
     private void handleLoad() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../fragments/submitfdprequestsview/submitFDPRequest.fxml"));
-            submitFDPRequestView = loader.load();
-            mSubmitFDPRequestController = loader.getController();
+            FXMLLoader submitFdpLoader = new FXMLLoader(getClass().getResource("../fragments/submitfdprequestsview/submitFDPRequest.fxml"));
+            submitFDPRequestView = submitFdpLoader.load();
+            mSubmitFDPRequestController = submitFdpLoader.getController();
 
+            FXMLLoader updateCredLoader = new FXMLLoader(getClass().getResource("../../common/updatecredentials/UpdateCredentialsView.fxml"));
+            updateCredentialsView = updateCredLoader.load();
+            mUpdateCredentialsController = updateCredLoader.getController();
 
-//            addFDPAttendanceView = FXMLLoader.load(getClass().getResource("../registerUserScreen/RegisterUserScreen.fxml"));
-//            seeAllFDPsView = FXMLLoader.load(getClass().getResource("..
-//            updateCredentialsView = FXMLLoader.load(getClass().getResource("../updateCredentialsScreen/UpdateCredentials.fxml"));
+            FXMLLoader allFDPLoader = new FXMLLoader(getClass().getResource("../fragments/allfdpscreen/FacultyAllFDPScreen.fxml"));
+            allFDPScreen = allFDPLoader.load();
+            mAllFDPScreenController = allFDPLoader.getController();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void addFDPAttendanceView(ActionEvent actionEvent) {
-    }
-
     public void setFacultyID(int facultyID) {
         mFacultyID = facultyID;
         System.out.println("MSFC setting in SFRC value mFacultyID = " + mFacultyID);
 
-        mSubmitFDPRequestController.setFacultyID(mFacultyID);
+        mSubmitFDPRequestController.setFacultyID(facultyID);
+        mUpdateCredentialsController.setFacultyID(facultyID);
+        mAllFDPScreenController.setFacultyID(facultyID);
+    }
+
+    public void setCurrentUser(String name) {
+        mCurrentUser = name;
+        welcomeLabel.setText("Welcome, " + mCurrentUser);
+    }
+
+    public void handleLogout(ActionEvent actionEvent) {
+        Alert logoutAlert = new Alert(Alert.AlertType.WARNING, "Are you sure you want to log out?", ButtonType.YES, ButtonType.NO);
+        logoutAlert.setHeaderText("Log out");
+        logoutAlert.showAndWait();
+
+        if (logoutAlert.getResult() == ButtonType.YES) {
+            //open login window
+            try {
+                Stage primaryStage = new Stage();
+
+                Parent root = FXMLLoader.load(getClass().getResource("../../common/login/LoginScreen.fxml"));
+
+                JFXDecorator decorator = new JFXDecorator(primaryStage, root);
+
+                decorator.getStylesheets().add(getClass().getResource("../../main/style.css").toExternalForm());
+
+                decorator.setTitle("LOGIN");
+
+                primaryStage.setScene(new Scene(decorator));
+                primaryStage.setResizable(false);
+
+                primaryStage.show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            }
+
+            //close the current window
+            root.getScene().getWindow().hide();
+        }
     }
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="faculty.fragments.allfdpscreen.FacultyAllFDPScreenController" maxHeight="-Infinity"
+           maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="595.0" prefWidth="822.0"
+           stylesheets="@../../../hod/fragments/allpendingfdpscreen/style.css" xmlns="http://javafx.com/javafx/9.0.1">
+    <children>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <children>
+                <VBox fx:id="container" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0"
+                      AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                      AnchorPane.topAnchor="0.0">
+                    <children>
+                        <HBox maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="722.0">
+                            <children>
+                                <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="FDP Requests"
+                                       HBox.hgrow="ALWAYS">
+                                    <font>
+                                        <Font name="Tahoma" size="22.0"/>
+                                    </font>
+                                </Label>
+                                <JFXButton fx:id="refreshButton" buttonType="RAISED" onAction="#refreshTable"
+                                           ripplerFill="WHITE" text=" ">
+                                    <graphic>
+                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../../rest/icons/refresh.png"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </JFXButton>
+                            </children>
+                            <VBox.margin>
+                                <Insets/>
+                            </VBox.margin>
+                        </HBox>
+                        <JFXTextField fx:id="searchBar" alignment="TOP_LEFT" labelFloat="true" promptText="Search">
+                            <font>
+                                <Font size="17.0"/>
+                            </font>
+                        </JFXTextField>
+                        <TableView fx:id="allFDPsView" editable="true" tableMenuButtonVisible="true"
+                                   VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="idCol" prefWidth="122.0" text="Name"/>
+                                <TableColumn fx:id="aboutCol" prefWidth="179.0" text="Details"/>
+                                <TableColumn fx:id="dateFromCol" minWidth="0.0" prefWidth="105.0" text="From"/>
+                                <TableColumn fx:id="dateToCol" minWidth="0.0" prefWidth="92.0" text="To"/>
+                                <TableColumn fx:id="daysCol" prefWidth="48.0" text="Days"/>
+                                <TableColumn fx:id="acceptedCol" prefWidth="75.0" text="Status"/>
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                            </columnResizePolicy>
+                        </TableView>
+                    </children>
+                    <padding>
+                        <Insets bottom="50.0" left="50.0" right="50.0" top="20.0"/>
+                    </padding>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </children>
+</StackPane>
+

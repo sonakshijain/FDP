@@ -10,11 +10,21 @@ import util.AlertUtils;
 import util.ConnectionUtils;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class Main extends Application {
 
+    public static void main(String[] args) {
+
+        launch(args);
+
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        System.out.println("jjj");
+
         Parent root = FXMLLoader.load(getClass().getResource("../common/login/LoginScreen.fxml"));
 
         JFXDecorator decorator = new JFXDecorator(primaryStage, root);
@@ -23,19 +33,17 @@ public class Main extends Application {
 
         decorator.setTitle("LOGIN");
 
-        primaryStage.setScene(new Scene(decorator));
+        Scene scene = new Scene(decorator);
+
+        primaryStage.setScene(scene);
         primaryStage.setResizable(false);
 
         try {
             Connection connection = ConnectionUtils.getDBConnection();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             AlertUtils.displaySQLErrorAlert(e, true);
         }
 
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

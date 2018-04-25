@@ -18,9 +18,13 @@ import org.apache.commons.lang3.text.StrSubstitutor;
 import org.apache.commons.mail.EmailException;
 import rest.Mailer;
 import rest.templateStrings.Templates;
+import util.ConnectionUtils;
 
 import java.net.MalformedURLException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -56,10 +60,9 @@ public class ForgotPasswordController {
     private String newPassword;
 
     public ForgotPasswordController() {
-        //TODO ADD DATABASE CONNECT CODE
         connection = null;
         try {
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/members", "postgres", "password");
+            connection = ConnectionUtils.getDBConnection();
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "", ButtonType.OK);
@@ -171,13 +174,13 @@ public class ForgotPasswordController {
 
     private String getFullNameByEmail(String currentEmailAddress) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM memberdetails WHERE email_address=?;");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM faculty_details JOIN faculty_credentials fc ON faculty_details.faculty_id = fc.faculty_id WHERE email_address=?;");
             preparedStatement.setString(1, currentEmailAddress);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                return resultSet.getString("name");
+                return resultSet.getString("fullname");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -189,7 +192,7 @@ public class ForgotPasswordController {
 
     private String getEmailByUsername(String username) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM memberdetails WHERE username=?;");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM faculty_details JOIN faculty_credentials fc ON faculty_details.faculty_id = fc.faculty_id WHERE username = ?");
             preparedStatement.setString(1, username);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -207,7 +210,7 @@ public class ForgotPasswordController {
 
     private boolean doesEmailExist(String email) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM memberdetails WHERE email_address=?;");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM faculty_details JOIN faculty_credentials fc ON faculty_details.faculty_id = fc.faculty_id WHERE email_address=?;");
             preparedStatement.setString(1, email);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -225,7 +228,7 @@ public class ForgotPasswordController {
 
     private boolean doesUsernameExist(String username) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM memberdetails WHERE username=?;");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM faculty_credentials WHERE username=?;");
             preparedStatement.setString(1, username);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -288,9 +291,9 @@ public class ForgotPasswordController {
     public void updatePassword(ActionEvent actionEvent) {
         if (passwordsMatch) {
             try {
-                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE memberdetails SET password=? WHERE email_address=?;");
+                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE faculty_credentials SET password=? WHERE username=?;");
                 preparedStatement.setString(1, newPassword);
-                preparedStatement.setString(2, currentEmailAddress);
+                preparedStatement.setString(2, "sonakshi.jain");
 
                 preparedStatement.executeUpdate();
 

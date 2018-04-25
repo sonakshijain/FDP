@@ -123,5 +123,25 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/lib/poi-3.17/lib" />
+          <root url="file://$MODULE_DIR$/lib/poi-3.17/ooxml-lib" />
+          <root url="jar://$MODULE_DIR$/lib/poi-3.17/poi-3.17.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/poi-3.17/poi-examples-3.17.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/poi-3.17/poi-excelant-3.17.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/poi-3.17/poi-ooxml-3.17.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/poi-3.17/poi-ooxml-schemas-3.17.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/poi-3.17/poi-scratchpad-3.17.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="file://$MODULE_DIR$/lib/poi-3.17/docs/apidocs" />
+        </JAVADOC>
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/lib/poi-3.17/lib" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/lib/poi-3.17/ooxml-lib" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>

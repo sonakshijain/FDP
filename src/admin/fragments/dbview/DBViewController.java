@@ -4,20 +4,31 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.DirectoryChooser;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import rest.Person;
 import util.AlertUtils;
 import util.ConnectionUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class DBViewController implements Initializable {
@@ -33,6 +44,7 @@ public class DBViewController implements Initializable {
     private ObservableList<Person> mPeople = FXCollections.observableArrayList();
 
     private Connection mConnection;
+    private String[] columns = {"Faculty ID", "Name", "Username", "Dept"};
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -52,9 +64,9 @@ public class DBViewController implements Initializable {
 
         dataTable.setItems(mPeople);
 
-        exportButton.setOnAction(event -> {
-            openDirectoryChooser();
-        });
+        exportButton.setOnAction(event -> openDirectoryChooser());
+
+        setupSearchField(dataTable, searchBarTF);
     }
 
     private void openDirectoryChooser() {
@@ -62,7 +74,59 @@ public class DBViewController implements Initializable {
         File selectedDirectory = directoryChooser.showDialog(searchBarTF.getScene().getWindow());
 
         if (selectedDirectory != null) System.out.println(selectedDirectory.getAbsolutePath());
-        else System.out.println("You selected nothing.");
+        else {
+            System.out.println("You selected nothing.");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a location.", ButtonType.OK);
+            alert.setHeaderText("No location specified");
+            alert.show();
+            return;
+        }
+
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Faculty Details");
+
+        Font headerFont = workbook.createFont();
+        headerFont.setBold(true);
+        headerFont.setFontHeightInPoints((short) 14);
+        headerFont.setColor(IndexedColors.RED.getIndex());
+
+        // Create a CellStyle with the font
+        CellStyle headerCellStyle = workbook.createCellStyle();
+        headerCellStyle.setFont(headerFont);
+
+        Row headerRow = sheet.createRow(0);
+
+        for (int i = 0; i < columns.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(columns[i]);
+            cell.setCellStyle(headerCellStyle);
+        }
+
+        int rowNum = 1;
+
+        for (Person person : mPeople) {
+            Row row = sheet.createRow(rowNum++);
+
+            row.createCell(0).setCellValue(person.getFacultyId());
+            row.createCell(1).setCellValue(person.getName());
+            row.createCell(2).setCellValue(person.getUsername());
+            row.createCell(3).setCellValue(person.getDept());
+        }
+
+        for (int i = 0; i < columns.length; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
+        try {
+            FileOutputStream fileOut = new FileOutputStream(selectedDirectory.getAbsolutePath() + "\\Faculty Details.xls");
+            workbook.write(fileOut);
+            fileOut.close();
+            workbook.close();
+        } catch (FileNotFoundException e) {
+            AlertUtils.displaySQLErrorAlert(e, false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadPeople() {
@@ -87,61 +151,28 @@ public class DBViewController implements Initializable {
         }
     }
 
-    public void handleSearch(KeyEvent keyEvent) {
+    @SuppressWarnings("Duplicates")
+    private void setupSearchField(TableView<Person> tableView, JFXTextField searchBar) {
+        FilteredList<Person> filteredList = new FilteredList<>(mPeople, p -> true);
 
-        mPeople.clear();
+        searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(person -> {
+                if (person.getName().toLowerCase().contains(newValue.toLowerCase())) return true;
 
-        try {
+                if (person.getUsername().toLowerCase().contains(newValue.toLowerCase())) return true;
 
-            PreparedStatement preparedStatement = null;
+                if (person.getDept().toLowerCase().contains(newValue.toLowerCase())) return true;
 
-            try {
+                if (String.valueOf(person.getFacultyId()).contains(newValue)) ;
 
-                checkNumeric(searchBarTF.getText());                            //Check if the search text is numeric
+                return false;
+            });
+        });
 
-                preparedStatement = mConnection.prepareStatement("SELECT * FROM faculty_details " +
-                        "WHERE (faculty_id LIKE ?) " +
-                        "AND fullname != \'Administrator\'");
+        SortedList<Person> sortedList = new SortedList<>(filteredList);
 
-                preparedStatement.setString(1, searchBarTF.getText() + "%");
+        sortedList.comparatorProperty().bind(tableView.comparatorProperty());
 
-            } catch (Exception e) {                                             //The search text was characters
-
-                preparedStatement = mConnection.prepareStatement("SELECT * FROM faculty_details JOIN faculty_credentials fc ON faculty_details.faculty_id = fc.faculty_id" +
-                                    " WHERE (fullname LIKE ? OR username LIKE ? OR email_address LIKE ?) " +
-                                    "AND fullname != admin");
-
-                preparedStatement.setString(1, "%" + searchBarTF.getText() + "%");
-                preparedStatement.setString(2, searchBarTF.getText() + "%");
-                preparedStatement.setString(3, searchBarTF.getText() + "%");
-            }
-            finally {
-                ResultSet resultSet = preparedStatement.executeQuery();
-
-                while (resultSet.next()) {
-                    mPeople.add(new Person(resultSet.getInt("faculty_id"),
-                            resultSet.getString("name"),
-                            resultSet.getString("username"),
-                            "",                                             //FIXME: REMOVE PARAMETER
-                            resultSet.getString("email_address")));
-                }
-            }
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void checkEmpty(KeyEvent keyEvent) {
-        if (searchBarTF.getText().equals("")) {
-            mPeople.clear();
-            loadPeople();
-        }
-    }
-
-    private boolean checkNumeric (String str) throws Exception {
-        if (str.matches("\\d+")) return true;
-        else throw new Exception("Not a valid numeric string.");
+        tableView.setItems(sortedList);
     }
 }

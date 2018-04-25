@@ -1,14 +1,16 @@
 package common.login;
 
+import admin.mainscreen.MainScreenAdminController;
 import com.jfoenix.controls.JFXDecorator;
 import com.jfoenix.controls.JFXSpinner;
 import faculty.mainscreen.MainScreenFacultyController;
+import hod.mainscreen.MainScreenHODController;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -18,8 +20,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import main.Main;
-import org.controlsfx.control.Notifications;
 import util.AlertUtils;
 import util.ConnectionUtils;
 import util.DialogUtils;
@@ -44,90 +44,84 @@ public class LoginScreenController implements Initializable {
 
     private Connection connection;
 
+    private String mFullName;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-
-
-        connection = null;
         try {
             connection = ConnectionUtils.getDBConnection();
         } catch (Exception e) {
             AlertUtils.displaySQLErrorAlert(e, true);
         }
 
-        passwordField.setOnKeyPressed(keyEvent -> {
+        //
+        root.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-                LoginScreenController.this.signInUser();
+                signInUser(null);
             }
         });
 
         Platform.runLater(usernameTextField::requestFocus);
-
-//        ONLY DEBUGGING
-        usernameTextField.setText("Admin");
-        passwordField.setText("Password");
-//        signInUser();
     }
 
-    public void signInUser() {
+    public void signInUser(ActionEvent actionEvent) {
 
-            setSignInButtonState(1);
+        setSignInButtonState(1);
 
-            PauseTransition pauseTransition = new PauseTransition();
-            pauseTransition.setDuration(Duration.seconds(3));
-            pauseTransition.setOnFinished(ev -> {
-                try {
-                    signIn();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            });
-            pauseTransition.play();
+        PauseTransition pauseTransition = new PauseTransition();
+        pauseTransition.setDuration(Duration.seconds(3));
+        pauseTransition.setAutoReverse(false);
+
+        pauseTransition.setOnFinished(ev -> {
+            try {
+                signIn(usernameTextField.getText(), passwordField.getText());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        pauseTransition.play();
+
     }
 
-    private void signIn() throws SQLException {
+    private void signIn(String username, String password) throws SQLException {
 
-//        System.out.println(usernameTextField.getText() + " " + passwordField.getText());
+        if (checkIfUserExists(username)) {
 
-        if (checkIfUserExists(usernameTextField.getText())) {
-
-            if (passwordField.getText().equals(getPasswordOf(usernameTextField.getText()))) {
+            if (password.equals(getPasswordOf(username))) {
 
                 PreparedStatement preparedStatement = connection.prepareStatement("SELECT access_level FROM faculty_credentials WHERE username=?");
-                preparedStatement.setString(1, usernameTextField.getText());
-                ResultSet resultSet = preparedStatement.executeQuery();
+                preparedStatement.setString(1, username);
+                ResultSet accessLevelResultSet = preparedStatement.executeQuery();
 
                 //Get faculty id of current username for passing on to the new controller
                 PreparedStatement getFacultyIDStmt = connection.prepareStatement("SELECT faculty_id FROM faculty_credentials WHERE username = ?");
-                getFacultyIDStmt.setString(1, usernameTextField.getText());
+                getFacultyIDStmt.setString(1, username);
                 ResultSet resultSet1 = getFacultyIDStmt.executeQuery();
                 resultSet1.next();
                 int facultyID = resultSet1.getInt("faculty_id");
 
-                while (resultSet.next()) {
+                //Fetch the current username's fullName to set in every child controller
+                mFullName = getNameOf(username);
 
-                    if (resultSet.getInt("access_level") == 1) {
-                        //Admin Found
-                        System.out.println("Admin");
-                        openMainWindow(ADMIN, facultyID);
-                        return;
-                    }
+                accessLevelResultSet.next();
 
-                    else if (resultSet.getInt("access_level") == 2) {
-                        System.out.println("hod");
-                        openMainWindow(HOD, facultyID);
-                        return;
-                    }
-
-                    else if (resultSet.getInt("access_level") == 3) {
-                        //Faculty
-                        System.out.println("Faculty");
-                        openMainWindow(FACULTY, facultyID);
-                        return;
-                    }
-
-
+                if (accessLevelResultSet.getInt("access_level") == 1) {
+                    //Admin Found
+                    System.out.println("Admin");
+                    openMainWindow(ADMIN, facultyID);
+                    return;
+                } else if (accessLevelResultSet.getInt("access_level") == 2) {
+                    //Hod
+                    System.out.println("HOD");
+                    openMainWindow(HOD, facultyID);
+                    return;
+                } else if (accessLevelResultSet.getInt("access_level") == 3) {
+                    //Faculty
+                    System.out.println("Faculty");
+                    openMainWindow(FACULTY, facultyID);
+                    return;
                 }
 
 //                openMainWindow();
@@ -143,8 +137,9 @@ public class LoginScreenController implements Initializable {
 
         else {
             setSignInButtonState(0);
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Couldn't find user " + usernameTextField.getText() + ".", ButtonType.OK);
-            alert.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Couldn't find user " + username + ".", ButtonType.OK);
+            alert.show();
+
 
         }
     }
@@ -171,13 +166,19 @@ public class LoginScreenController implements Initializable {
 
             switch (window) {
                 case ADMIN: {
-                    root = FXMLLoader.load(getClass().getResource("../../admin/mainscreen/MainScreenAdmin.fxml"));
-                    //TODO PASS FAC ID
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../admin/mainscreen/MainScreenAdmin.fxml"));
+                    root = fxmlLoader.load();
+                    MainScreenAdminController msac = fxmlLoader.getController();
+                    msac.setWelcomeLabel(getNameOf(usernameTextField.getText()));
                     break;
                 }
 
                 case HOD: {
-                    root = FXMLLoader.load(getClass().getResource("../../hod/mainscreen/MainScreenHOD.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../../hod/mainscreen/MainScreenHOD.fxml"));
+                    root = loader.load();
+                    MainScreenHODController controller = loader.getController();
+                    controller.setFacultyID(facultyID);
+                    controller.setCurrentUser(mFullName);
                     break;
                 }
 
@@ -186,7 +187,7 @@ public class LoginScreenController implements Initializable {
                     root = fxmlLoader.load();
                     MainScreenFacultyController controller = fxmlLoader.getController();
                     controller.setFacultyID(facultyID);
-                    System.out.println("LSC setting in MSFC value facultyID = " + facultyID);
+                    controller.setCurrentUser(mFullName);
                     break;
                 }
 
@@ -214,20 +215,6 @@ public class LoginScreenController implements Initializable {
             stage.setTitle("FDP Management");
             stage.setScene(scene);
 
-
-//            ResizeHelper.addResizeListener(stage);
-//            root.getChildrenUnmodifiable().get(1).setOnMousePressed(event -> {
-//                xOffset = event.getSceneX();
-//                yOffset = event.getSceneY();
-//            });
-//            root.getChildrenUnmodifiable().get(1).setOnMouseDragged(event -> {
-//                stage.setX(event.getScreenX() - xOffset);
-//                stage.setY(event.getScreenY() - yOffset);
-//            });
-
-
-
-
             usernameTextField.getScene().getWindow().hide(); //Hide the login Screen
             stage.show();
         } catch (IOException e) {
@@ -236,6 +223,7 @@ public class LoginScreenController implements Initializable {
     }
 
     private boolean checkIfUserExists(String username) throws SQLException {
+
         Statement statement = connection.createStatement();
 
         String sql = "SELECT username FROM faculty_credentials;";
@@ -252,23 +240,41 @@ public class LoginScreenController implements Initializable {
     }
 
     private String getPasswordOf (String username) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT password FROM faculty_credentials WHERE username=?");
+        String sql = "SELECT password FROM faculty_credentials WHERE username=?";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, username);
 
         ResultSet resultSet = preparedStatement.executeQuery();
 
-        while (resultSet.next()) {
-            return resultSet.getString("password");
+        resultSet.next();
+
+        return resultSet.getString("password");
+
+    }
+
+    private String getNameOf(String username) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT fullname FROM faculty_details WHERE faculty_id = (SELECT faculty_id FROM faculty_credentials WHERE username = ?)");
+            preparedStatement.setString(1, username);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            resultSet.next();
+
+            return resultSet.getString("fullname");
+
+        } catch (SQLException e) {
+            AlertUtils.displaySQLErrorAlert(e, false);
         }
         return null;
     }
-
 
     //Helper Methods.
     public void handleForgotPassword(MouseEvent mouseEvent) {
         System.out.println("OKAY?");
         try {
-            Parent root = FXMLLoader.load(Main.class.getResource("../common.forgotpassword/ForgotPasswordScreen.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../forgotpassword/ForgotPasswordScreen.fxml"));
             Scene mainScene = new Scene(root);
             Stage stage = new Stage();
             stage.setTitle("Password Recovery");
@@ -279,8 +285,4 @@ public class LoginScreenController implements Initializable {
         }
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        connection.close();
-    }
 }

@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXDatePicker?>
-<?import com.jfoenix.controls.JFXTextArea?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXToolbar?>
+<?import com.jfoenix.controls.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
+<?import rest.AutocompletionTextField?>
 <StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="611.0" prefWidth="890.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="faculty.fragments.submitfdprequestsview.SubmitFDPRequestController">
    <children>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" StackPane.alignment="CENTER">
@@ -32,7 +25,7 @@
                      <children>
                         <VBox alignment="CENTER" prefHeight="464.0" prefWidth="388.0" spacing="100.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <JFXTextField fx:id="fdpNameTF" labelFloat="true" promptText="FDP Name" />
+                               <AutocompletionTextField fx:id="fdpNameTF" labelFloat="true" promptText="FDP Name"/>
                               <JFXTextArea fx:id="fdpCommentsTA" labelFloat="true" promptText="FDP Comments" wrapText="true" />
                            </children>
                            <padding>

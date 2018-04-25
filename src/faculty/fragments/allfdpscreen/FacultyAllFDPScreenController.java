@@ -1,4 +1,4 @@
-package hod.fragments.allfdpscreen;
+package faculty.fragments.allfdpscreen;
 
 import com.jfoenix.controls.JFXTextField;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,25 +20,31 @@ import java.net.URL;
 import java.sql.*;
 import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class HODAllFDPController implements Initializable {
+@SuppressWarnings("Duplicates")
+public class FacultyAllFDPScreenController implements Initializable {
 
-    @FXML public TableView<Fdp> allFDPsView;
-    @FXML public TableColumn<Fdp, String> idCol;
-    @FXML public TableColumn<Fdp, String> aboutCol;
-    @FXML public TableColumn<Fdp, Date> dateFromCol;
-    @FXML public TableColumn<Fdp, Date> dateToCol;
-    @FXML public TableColumn<Fdp, Number> daysCol;
-    @FXML public TableColumn<Fdp, String> requestedByCol;
+    @FXML
+    public TableView<Fdp> allFDPsView;
+    @FXML
+    public TableColumn<Fdp, String> idCol;
+    @FXML
+    public TableColumn<Fdp, String> aboutCol;
+    @FXML
+    public TableColumn<Fdp, Date> dateFromCol;
+    @FXML
+    public TableColumn<Fdp, Date> dateToCol;
+    @FXML
+    public TableColumn<Fdp, Number> daysCol;
     @FXML
     public TableColumn<Fdp, String> acceptedCol;
-    @FXML public JFXTextField searchBar;
+    @FXML
+    public JFXTextField searchBar;
 
     private ObservableList<Fdp> mFdpRequests = FXCollections.observableArrayList();
 
     private Connection mConnection;
+    private int mFacultyID;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -48,36 +54,18 @@ public class HODAllFDPController implements Initializable {
             AlertUtils.displaySQLErrorAlert(e, true);
         }
 
-        initTableView();
+        initTreeTableView();
 
         setupSearchField(allFDPsView, searchBar);
-
-        setAutoRefresh();
-
     }
 
-    private void setAutoRefresh() {
-        //Refresh automatically
-        Timer timer = new Timer();
-
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                refreshTable(null);
-            }
-        };
-
-        timer.scheduleAtFixedRate(task, 1000, 1000);
-    }
-
-    private void initTableView() {
+    private void initTreeTableView() {
 
         idCol.setCellValueFactory(new PropertyValueFactory<>("fdpName"));
         aboutCol.setCellValueFactory(new PropertyValueFactory<>("comments"));
         dateFromCol.setCellValueFactory(new PropertyValueFactory<>("dateFromProperty"));
         dateToCol.setCellValueFactory(new PropertyValueFactory<>("dateToProperty"));
         daysCol.setCellValueFactory(new PropertyValueFactory<>("days"));
-        requestedByCol.setCellValueFactory(new PropertyValueFactory<>("requestedByName"));
         acceptedCol.setCellValueFactory(param -> {
             if (param.getValue().hodRec.get()) return new SimpleStringProperty("Accepted");
             else return new SimpleStringProperty("Not Accepted");
@@ -88,20 +76,20 @@ public class HODAllFDPController implements Initializable {
         allFDPsView.setItems(mFdpRequests);
 
         idCol.prefWidthProperty().bind(allFDPsView.widthProperty().multiply(0.2));
-        aboutCol.prefWidthProperty().bind(allFDPsView.widthProperty().multiply(0.3));
+        aboutCol.prefWidthProperty().bind(allFDPsView.widthProperty().multiply(0.6));
         dateFromCol.prefWidthProperty().bind(allFDPsView.widthProperty().multiply(0.1));
         dateFromCol.prefWidthProperty().bind(allFDPsView.widthProperty().multiply(0.1));
         daysCol.prefWidthProperty().bind(allFDPsView.widthProperty().multiply(0.1));
-        requestedByCol.prefWidthProperty().bind(allFDPsView.widthProperty().multiply(0.2));
     }
 
     private void loadRequests() {
 
         try {
 
-            String loadFDPDetailsQuery = "SELECT * FROM fdp_details JOIN fdp_requests request ON fdp_details.fdp_id = request.fdp_id WHERE seen_by_hod = FALSE;";
+            String loadFDPDetailsQuery = "SELECT * FROM fdp_details JOIN fdp_requests request ON fdp_details.fdp_id = request.fdp_id WHERE requested_by_id = ?";
 
             PreparedStatement FDPDetailsStmt = mConnection.prepareStatement(loadFDPDetailsQuery);
+            FDPDetailsStmt.setInt(1, mFacultyID);
 
             ResultSet resultSet = FDPDetailsStmt.executeQuery();
 
@@ -143,13 +131,14 @@ public class HODAllFDPController implements Initializable {
             filteredList.setPredicate(fdp -> {
                 if (newValue == null || newValue.isEmpty()) return true; //if empty, display all
 
-                if (String.valueOf(fdp.fdpName).toLowerCase().contains(newValue.toLowerCase())) return true; // fdpName match
-
-                if (String.valueOf(fdp.requestedByName).toLowerCase().contains(newValue.toLowerCase())) return true; //RequestedBy Matched
+                if (String.valueOf(fdp.fdpName).toLowerCase().contains(newValue.toLowerCase()))
+                    return true; // fdpName match
 
                 if (String.valueOf(fdp.dateFromProperty.getValue().toString()).contains(newValue)) return true;
 
                 if (String.valueOf("Accepted").contains(newValue)) return true;
+
+                if (String.valueOf("Not").contains(newValue)) return true;
 
                 return String.valueOf(fdp.comments).toLowerCase().contains(newValue.toLowerCase());
 
@@ -168,5 +157,10 @@ public class HODAllFDPController implements Initializable {
         loadRequests();
         allFDPsView.refresh();
     }
+
+    public void setFacultyID(int facultyID) {
+        mFacultyID = facultyID;
+    }
 }
+
 

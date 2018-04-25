@@ -14,7 +14,9 @@
          <children>
             <HBox prefHeight="44.0" prefWidth="815.0" spacing="10.0">
                <children>
-                  <JFXTextField fx:id="searchBarTF" focusColor="#ef5350" labelFloat="true" onKeyReleased="#checkEmpty" onKeyTyped="#handleSearch" prefHeight="32.0" prefWidth="993.0" promptText="Search coloumns" unFocusColor="#ef5350" HBox.hgrow="ALWAYS">
+                  <JFXTextField fx:id="searchBarTF" focusColor="#ef5350" labelFloat="true" prefHeight="32.0"
+                                prefWidth="993.0" promptText="Search coloumns" unFocusColor="#ef5350"
+                                HBox.hgrow="ALWAYS">
                      <font>
                         <Font name="DejaVu Sans Mono Bold" size="16.0" />
                      </font>
@@ -23,7 +25,7 @@
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/searching-magnifying-glass.png" />
+                              <Image url="@../../../rest/icons/searching-magnifying-glass.png"/>
                            </image>
                         </ImageView>
                      </graphic>
@@ -32,7 +34,7 @@
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/sort-by-alphabet.png" />
+                              <Image url="@../../../rest/icons/sort-by-alphabet.png"/>
                            </image>
                         </ImageView>
                      </graphic>
@@ -41,7 +43,7 @@
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/menu.png" />
+                              <Image url="@../../../rest/icons/menu.png"/>
                            </image>
                         </ImageView>
                      </graphic>
@@ -53,7 +55,7 @@
             </HBox>
             <TableView fx:id="dataTable" editable="true" prefHeight="711.0" prefWidth="1174.0" tableMenuButtonVisible="true">
                <columns>
-                  <TableColumn fx:id="facultyIdCol" editable="false" prefWidth="134.0" text="PRN" />
+                  <TableColumn fx:id="facultyIdCol" editable="false" prefWidth="134.0" text="Faculty ID"/>
                   <TableColumn fx:id="nameCol" prefWidth="260.0" text="Name" />
                   <TableColumn fx:id="usernameCol" prefWidth="243.0" text="Username" />
                   <TableColumn fx:id="deptCol" prefWidth="165.0" text="Email Address" />

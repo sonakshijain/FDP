@@ -16,10 +16,37 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * This class is a TextField which implements an "autocomplete" functionality, based on a supplied list of entries.
+ * This class is a TextField which implements an "autocomplete" functionality,
+ * based on a supplied list of entries.<p>
+ *
+ * If the entered text matches a part of any of the supplied entries these are
+ * going to be displayed in a popup. Further the matching part of the entry is
+ * going to be displayed in a special style, defined by
+ * {@link #textOccurenceStyle textOccurenceStyle}. The maximum number of
+ * displayed entries in the popup is defined by
+ * {@link #maxEntries maxEntries}.<br>
+ * By default the pattern matching is not case-sensitive. This behaviour is
+ * defined by the {@link #caseSensitive caseSensitive}
+ * .<p>
+ *
+ * The AutoCompleteTextField also has a List of
+ * {@link #filteredEntries filteredEntries} that is equal to the search results
+ * if search results are not empty, or {@link #filteredEntries filteredEntries}
+ * is equal to {@link #entries entries} otherwise. If
+ * {@link #popupHidden popupHidden} is set to true no popup is going to be
+ * shown. This list can be used to bind all entries to another node (a ListView
+ * for example) in the following way:
+ * <pre>
+ * <code>
+ * AutoCompleteTextField auto = new AutoCompleteTextField(entries);
+ * auto.setPopupHidden(true);
+ * SimpleListProperty filteredEntries = new SimpleListProperty(auto.getFilteredEntries());
+ * listView.itemsProperty().bind(filteredEntries);
+ * </code>
+ * </pre>
+ *
  * @author Caleb Brinkman
- * @see com.jfoenix.controls.JFXTextField
- * @implNote Changed everything to JFoenix Libraries
+ * @author Fabian Ochmann
  */
 public class AutoCompleteJFXTextField extends JFXTextField
 {
@@ -33,28 +60,19 @@ public class AutoCompleteJFXTextField extends JFXTextField
         super();
         entries = new TreeSet<>();
         entriesPopup = new ContextMenu();
-        textProperty().addListener(new ChangeListener<String>()
-        {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
-                if (getText().length() == 0)
-                {
-                    entriesPopup.hide();
-                } else
-                {
-                    LinkedList<String> searchResult = new LinkedList<>();
-                    searchResult.addAll(entries.subSet(getText(), getText() + Character.MAX_VALUE));
-                    if (entries.size() > 0)
-                    {
-                        populatePopup(searchResult);
-                        if (!entriesPopup.isShowing())
-                        {
-                            entriesPopup.show(AutoCompleteJFXTextField.this, Side.BOTTOM, 0, 0);
-                        }
-                    } else
-                    {
-                        entriesPopup.hide();
+        textProperty().addListener((observableValue, s, s2) -> {
+            if (getText().length() == 0) {
+                entriesPopup.hide();
+            } else {
+                LinkedList<String> searchResult = new LinkedList<>();
+                searchResult.addAll(entries.subSet(getText(), getText() + Character.MAX_VALUE));
+                if (entries.size() > 0) {
+                    populatePopup(searchResult);
+                    if (!entriesPopup.isShowing()) {
+                        entriesPopup.show(AutoCompleteJFXTextField.this, Side.BOTTOM, 0, 0);
                     }
+                } else {
+                    entriesPopup.hide();
                 }
             }
         });
