@@ -51,3 +51,10 @@ ii. Right now there isn’t any feature to select any FDP Request and to export 
 Right now, we are working on a program to make a sample PSQL database according to the ER Diagram below: 
 ![](https://lh3.googleusercontent.com/ykJB-08gy_bqOUXfjk_uDPul2ivaY7XgbJEMvp1Zl84A0l4TMpZurZuA8L-Mj3pAy8ILCpJFi_q_TF5xUkfvCzLflAPwYDOrUTWn1h4Ju417TvJhjhqdvx_W4LCsth1n0Oe8-09n)
  > Meanwhile, the program will show a fatal error on starting up if it doesn't find a PSQL Server. If you can make a program to make it simple, please let me know. :)
+
+## Screenshots
+
+![](https://lh6.googleusercontent.com/uUHBRw_HL9an_D8yBhmPTegR4SS6ko8gDTsLsMkJr_Q6_YabufYYt05ikOP_6QXBVP-Qei6-_ENpPTUftbR5wTrDmxChKMY0GEQISghcasovtMEetNWs2oorlg9gD6pZSwF52ITYBfrQlT0NyQ)
+![](https://lh5.googleusercontent.com/O6PRPC96BmgUxrH7QSSx9PeACb2kESLeUSBM1v_7qnbZcpF2KnfYmD0Ciox6emr1l0dwZPA9XS_BWNaL6y25u0nTQMwxD9iAelMnKwIGltqtvAcGGvv_7z_hYlgPsuwM4eat2s1toC9itZ8YfQ)
+![](https://lh3.googleusercontent.com/hmx1YpMZpoh9PWtRVE4ePO-3ydPArQvagSz3tFUnp-dA1_76jCaXUkulJ7T3WJ8MwGiYEknd-6TFWURr5Yojo3yhuomfcF_QG2skO_iTo0TgNzbU1KlUsWlFVJvzOzpJ6eZbJ7b8SVIPnt59aw)
+![]()
