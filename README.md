@@ -51,3 +51,9 @@ ii. Right now there isn’t any feature to select any FDP Request and to export 
 Right now, we are working on a program to make a sample PSQL database according to the ER Diagram below: 
 ![](https://lh3.googleusercontent.com/ykJB-08gy_bqOUXfjk_uDPul2ivaY7XgbJEMvp1Zl84A0l4TMpZurZuA8L-Mj3pAy8ILCpJFi_q_TF5xUkfvCzLflAPwYDOrUTWn1h4Ju417TvJhjhqdvx_W4LCsth1n0Oe8-09n)
  > Meanwhile, the program will show a fatal error on starting up if it doesn't find a PSQL Server. If you can make a program to make it simple, please let me know. :)
+
+## Screenshots
+
+[Reset]: https://github.com/ArpanSriv/FDP/blob/master/screenshots/Reset.png "Reset Password"
+[Create Request]: https://github.com/ArpanSriv/FDP/blob/master/screenshots/Create%20FDP%20Request.png "Creating Request"
+[Changing Password]: https://github.com/ArpanSriv/FDP/blob/master/screenshots/Change%20Password.png "Changing Password"
