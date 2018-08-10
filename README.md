@@ -54,6 +54,7 @@ Right now, we are working on a program to make a sample PSQL database according 
 
 ## Screenshots
 
-[Reset]: https://github.com/ArpanSriv/FDP/blob/master/screenshots/Reset.png "Reset Password"
-[Create Request]: https://github.com/ArpanSriv/FDP/blob/master/screenshots/Create%20FDP%20Request.png "Creating Request"
-[Changing Password]: https://github.com/ArpanSriv/FDP/blob/master/screenshots/Change%20Password.png "Changing Password"
+![](https://lh6.googleusercontent.com/uUHBRw_HL9an_D8yBhmPTegR4SS6ko8gDTsLsMkJr_Q6_YabufYYt05ikOP_6QXBVP-Qei6-_ENpPTUftbR5wTrDmxChKMY0GEQISghcasovtMEetNWs2oorlg9gD6pZSwF52ITYBfrQlT0NyQ)
+![](https://lh5.googleusercontent.com/O6PRPC96BmgUxrH7QSSx9PeACb2kESLeUSBM1v_7qnbZcpF2KnfYmD0Ciox6emr1l0dwZPA9XS_BWNaL6y25u0nTQMwxD9iAelMnKwIGltqtvAcGGvv_7z_hYlgPsuwM4eat2s1toC9itZ8YfQ)
+![](https://lh3.googleusercontent.com/hmx1YpMZpoh9PWtRVE4ePO-3ydPArQvagSz3tFUnp-dA1_76jCaXUkulJ7T3WJ8MwGiYEknd-6TFWURr5Yojo3yhuomfcF_QG2skO_iTo0TgNzbU1KlUsWlFVJvzOzpJ6eZbJ7b8SVIPnt59aw)
+![]()
